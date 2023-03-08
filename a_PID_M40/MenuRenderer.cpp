@@ -7,7 +7,6 @@
 #include "SSD1306.h"
 #include <Arduino.h>
 #include <U8g2lib.h>
-#include "BluetoothSerial.h"
 
 SSD1306GasMenuRenderer::SSD1306GasMenuRenderer(SSD1306Wire* display) : SSD1306MenuRenderer(display)
 
@@ -21,7 +20,7 @@ void SSD1306GasMenuRenderer::render(Menu* menu)
   m_display->clear();
   m_display->setColor(WHITE);
   m_display->setTextAlignment(TEXT_ALIGN_CENTER);
-  m_display->drawString(64, 0, "Select Detector");
+  m_display->drawString(64, 0, "Select Gas");
   m_display->drawLine(10, 16, 256, 16);
   m_display->drawString(64, 30 , menu->getName());
   m_display->display();
@@ -29,8 +28,7 @@ void SSD1306GasMenuRenderer::render(Menu* menu)
 
 
 
-SSD1306RunMenuRenderer::SSD1306RunMenuRenderer(SSD1306Wire* display, BluetoothSerial* SerialBT, DataSource* dataSource, GasManager* gasManager) : SSD1306MenuRenderer(display),
-  m_serialbt(SerialBT),
+SSD1306RunMenuRenderer::SSD1306RunMenuRenderer(SSD1306Wire* display, DataSource* dataSource, GasManager* gasManager) : SSD1306MenuRenderer(display),
   m_dataSource(dataSource),
   m_gasManager(gasManager)
 {
@@ -69,29 +67,22 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   //m_display->drawString(64, 0, String(selectedGas.getName()).c_str());
   //m_display->drawString(64, 0, "CO2");
   m_display->drawString(64, 0, "EC Sensor");
-  m_display->drawLine(0, 14, 256, 14);
-  m_display->drawLine(60, 14, 60, 80);
-  m_display->drawLine(0, 40, 256, 40);
-//  m_display->drawLine(0, 45, 256, 45);
+  m_display->drawLine(0, 12, 256, 12);
+  m_display->drawLine(0, 30, 256, 30);
+  m_display->drawLine(60, 14, 60, 50);
+  m_display->drawLine(0, 50, 256, 50);
 
   m_display->setFont(ArialMT_Plain_10);
-  if (m_dataSource->getDoubleValue() > 10000) {
-    m_display->drawString(22, 20, "NH3:xxx");
-  } else {
-    m_display->drawString(22, 20, ("NH3:"+String(m_dataSource->getRawMiliVolts(), 0)).c_str());
-  }
-
-  m_display->drawString(86, 20, "H2S:17.4");
-  m_display->drawString(25, 42, "CO: 36.2");
-  m_display->drawString(84, 42, "O2: 273");
-//  m_display->drawString(60, 50, "ppm");
+  m_display->drawString(25, 15, "NH3: 0.1");
+  m_display->drawString(86, 15, "H2S: 0.1");
+  m_display->drawString(25, 35, "CO: 0.1");
+  m_display->drawString(93, 35, "O2: 20.8%");
+  m_display->drawString(60, 50, "LOG     ECppm      Alm");
 
   m_display->setFont(ArialMT_Plain_10);
   //m_display->drawString(105, 30, "ppm");   //Unit
   //m_display->drawLine(0, 49, 256, 49);
   //m_display->drawString(64, 51,  String(String(m_dataSource->getRawMiliVolts()) + "mV").c_str());
-  //m_serialbt->print(String(timeString));
-  //m_serialbt->print((", " + String(m_dataSource->getDoubleValue(), 0) + ",ppm," + String(m_dataSource->getRawMiliVolts()) + "mV\n").c_str());
 
   //  Serial.print(String(timeString));
   Serial.print((", " + String(m_dataSource->getDoubleValue(), 0) + ",ppm," + String(m_dataSource->getRawMiliVolts()) + "mV\n").c_str());

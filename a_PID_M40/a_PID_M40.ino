@@ -28,11 +28,7 @@
 #include "inc/Globals.h"
 #include "inc/DataLogger.h"
 #include "inc/DataSource.h"
-#include "BluetoothSerial.h"
 
-#if !defined(CONFIG_BT_ENABLED) || !defined(CONFIG_BLUEDROID_ENABLED)
-#error Bluetooth is not enabled! Please run `make menuconfig` to and enable it
-#endif
 
 
 using namespace std;
@@ -46,8 +42,6 @@ using namespace std;
 
 #define wifi_ssid "22CDPro"
 #define wifi_password "00525508"
-
-BluetoothSerial SerialBT;
 
 GasManager g_gasManager(1.73231201, -2.054456771, 1, 0, 0,0,0,0,0,0,0);
 
@@ -98,9 +92,6 @@ void setup() {
   // DEEP-SLEEP init
   pinMode(25, OUTPUT);
 
-  SerialBT.begin("ESP32_102"); //Bluetooth device name
-  Serial.println("The device started, now you can pair it with bluetooth!");
-
   //esp_sleep_enable_ext1_wakeup(0x8004, ESP_EXT1_WAKEUP_ANY_HIGH);
   esp_sleep_enable_ext0_wakeup(GPIO_NUM_12, LOW);
   // ADC
@@ -132,7 +123,7 @@ void setup() {
   //display.setFont(ArialMT_Plain_16);
 
   MenuRenderer* gasMenuRenderer = new SSD1306GasMenuRenderer(&display);
-  MenuRenderer* runMenuRenderer = new SSD1306RunMenuRenderer(&display, &SerialBT, dataSource, &g_gasManager);
+  MenuRenderer* runMenuRenderer = new SSD1306RunMenuRenderer(&display, dataSource, &g_gasManager);
   MenuRenderer* sleepTimerMenuRenderer = new SSD1306SleepTimerMenuRenderer(&display, &g_sleepTimer);
   MenuRenderer* rangeMenuRenderer = new SSD1306RangeMenuRenderer(&display, &g_range);
 

@@ -2,7 +2,6 @@
 
 class Menu;
 class SSD1306Wire;
-class BluetoothSerial;
 class U8G2_SSD1327_MIDAS_128X128_F_4W_SW_SPI;
 class Adafruit_ADS1115;
 class GasManager;
@@ -50,13 +49,12 @@ public:
 
 class SSD1306RunMenuRenderer : public SSD1306MenuRenderer
 {
-    BluetoothSerial*           m_serialbt;
 	DataSource* 		m_dataSource;
 	GasManager*			m_gasManager;
 	
 public:
 
-	SSD1306RunMenuRenderer(SSD1306Wire* display,BluetoothSerial* serialbt, DataSource* dataSource, GasManager* gasManager);
+	SSD1306RunMenuRenderer(SSD1306Wire* display, DataSource* dataSource, GasManager* gasManager);
 
 	void render(Menu* menu);
 };

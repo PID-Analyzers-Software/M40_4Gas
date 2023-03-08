@@ -7,7 +7,6 @@
 #include "ConfigurationManager.h"
 #include "Globals.h"
 #include <EEPROM.h>
-#include "BluetoothSerial.h"
 
 
 class Gas
