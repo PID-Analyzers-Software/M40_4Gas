@@ -77,7 +77,7 @@ void SSD1306RunMenuRenderer::render(Menu* menu)
   m_display->drawString(86, 15, "H2S: 0.1");
   m_display->drawString(25, 35, "CO: 0.1");
   m_display->drawString(93, 35, "O2: 20.8%");
-  m_display->drawString(60, 50, "LOG     ECppm      Alm");
+  m_display->drawString(60, 50, "Log    EC PPM      Alm");
 
   m_display->setFont(ArialMT_Plain_10);
   //m_display->drawString(105, 30, "ppm");   //Unit
